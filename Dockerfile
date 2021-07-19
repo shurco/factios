@@ -1,5 +1,5 @@
 FROM golang:1.16.3-alpine3.13 AS GO_BUILD
-COPY server /server
+COPY . /server
 WORKDIR /server
 RUN go build -o /go/bin/server
 
