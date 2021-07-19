@@ -19,7 +19,7 @@ var (
 	viewsfs embed.FS
 
 	log  = logger.GetLogger("factios")
-	base = db.NewDB("../db/")
+	base = db.NewDB("./db/")
 )
 
 func main() {
