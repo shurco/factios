@@ -35,6 +35,7 @@ func main() {
 
 	setupRoutes(app)
 
+	log.Info().Msg("Server start on :3000 port")
 	err := app.Listen(":3000")
 	if err != nil {
 		log.Error().Err(err)
@@ -85,6 +86,8 @@ func factPage(c *fiber.Ctx) error {
 			return c.SendStatus(404)
 		}
 	}
+
+	log.Info().Str("Short", fact.Short)
 
 	return c.Render("template/index", fiber.Map{
 		"Lang":  lng,
