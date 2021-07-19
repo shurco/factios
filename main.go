@@ -98,11 +98,13 @@ func factPage(c *fiber.Ctx) error {
 }
 
 func robotsFile(c *fiber.Ctx) error {
-	return c.SendFile("./template/robots.txt")
+	file, _ := viewsfs.ReadFile("template/robots.txt")
+	return c.Send(file)
 }
 
 func faviconFile(c *fiber.Ctx) error {
-	return c.SendFile("./template/favicon.ico")
+	file, _ := viewsfs.ReadFile("template/favicon.ico")
+	return c.Send(file)
 }
 
 func getRandomFact(c *fiber.Ctx) error {
