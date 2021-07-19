@@ -9,7 +9,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/csrf"
 	"github.com/gofiber/template/html"
-	"github.com/shurco/factios/db"
+	"github.com/shurco/factios/database"
 	"github.com/shurco/factios/logger"
 	"github.com/shurco/factios/model"
 )
@@ -18,8 +18,8 @@ var (
 	//go:embed template/*
 	viewsfs embed.FS
 
-	log  = logger.GetLogger("factios")
-	base = db.NewDB("./db/")
+	log  = logger.GetLogger("server")
+	base = database.NewDB("./db/")
 )
 
 func main() {

@@ -44,9 +44,4 @@ Temporary Items
 
 .vscode/*
 __debug_bin
-
-webapp/node_modules
-webapp/build
-webapp/npm-debug.log*
-
 db/*
