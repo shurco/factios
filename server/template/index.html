@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="{{.Lang}}">
+
+<head>
+    <title>А Вы знали что: {{.Fact}}</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="author" content="Shurco Dmitry">
+    <meta name="description" content="Factios: интересные факты">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=1">
+    <meta name='yandex-verification' content='46b692887bc7abe1' />
+    <meta name="google-site-verification" content="_bomSG_LyNq8zf1o-QVx0wBKCllOpJ9FqF_S3Xg8Co0" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <meta property="og:title" class="share-titles" content="{{.Fact}}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://factios.com/f/{{.Lang}}/{{.Url}}" />
+    <meta property="og:image" content="data:image/jpeg;base64,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" />
+    <meta property="og:site_name" content="Factios: интересные факты" />
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Open+Sans+Condensed:700,300&subset=latin,cyrillic);
+
+        * {
+            margin: 0;
+        }
+
+        html {
+            height: 100%;
+        }
+
+        body {
+            height: 100%;
+            color: #fff;
+            font-size: 14px;
+            font-family: 'Open Sans Condensed', Tahoma, sans-serif;
+            font-weight: 300;
+            background: #dadada;
+        }
+
+        img {
+            border: none;
+        }
+
+        .page-wrap {
+            min-height: 100%;
+            margin-bottom: -110px;
+        }
+
+        .page-wrap:after {
+            content: "";
+            display: block;
+        }
+
+        footer,
+        .page-wrap:after {
+            height: 100px;
+        }
+
+        footer {
+            text-align: center;
+            position: relative;
+        }
+
+        .site-footer-div {
+            text-align: center;
+        }
+
+        a {
+            color: #fff;
+            outline: none;
+        }
+
+        a:hover {
+            color: #ddd;
+        }
+
+        h1 {
+            font-family: 'Open Sans Condensed', Tahoma, sans-serif;
+            text-transform: uppercase;
+            text-align: center;
+            display: block;
+            font-weight: 700;
+            font-size: 48px;
+            padding: 0 400px;
+        }
+
+        h1 a {
+            text-decoration: none;
+            display: inline-block;
+            padding: 130px 0 10px 0;
+        }
+
+        h1 a:hover {
+            color: #fff;
+        }
+
+        #logo {
+            width: 136px;
+            height: 169px;
+            display: block;
+            clear: both;
+            margin: 20px auto;
+        }
+
+        @media screen and (max-width: 1600px) {
+            h1 {
+                font-size: 40px;
+                padding: 0 300px;
+            }
+
+            h1 a {
+                padding: 130px 0 60px 0;
+            }
+        }
+
+        @media screen and (max-width: 1280px) {
+            h1 {
+                font-size: 38px;
+                padding: 0 80px;
+            }
+
+            h1 a {
+                padding: 100px 0 30px 0;
+            }
+        }
+
+        @media screen and (max-width: 1024px) {
+            h1 {
+                font-size: 34px;
+                padding: 0 60px;
+            }
+
+            h1 a {
+                padding: 70px 0 10px 0;
+            }
+        }
+
+        @media screen and (max-width: 800px) {
+            h1 {
+                font-size: 24px;
+                padding: 0 40px;
+            }
+
+            h1 a {
+                padding: 40px 0 10px 0;
+            }
+        }
+
+        @media screen and (max-width: 640px) {
+            h1 {
+                font-size: 20px;
+                padding: 0 40px;
+            }
+
+            h1 a {
+                padding: 30px 0 10px 0;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            h1 {
+                font-size: 18px;
+                padding: 0 20px;
+            }
+
+            h1 a {
+                padding: 23px 0 10px 0;
+            }
+        }
+
+
+        #copyrights {
+            position: absolute;
+            bottom: 0;
+            text-transform: uppercase;
+            text-align: center;
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        #be_great_with_us {
+            margin: 0 0 10px 0;
+            font-size: 22px;
+            display: none;
+        }
+
+        .bg1 {
+            background-color: #9C5C5B;
+        }
+
+        .bg2 {
+            background-color: #2B3E50;
+        }
+
+        .bg3 {
+            background-color: #5F586B;
+        }
+
+        .bg4 {
+            background-color: #00819E;
+        }
+
+        .bg5 {
+            background-color: #9B4C71;
+        }
+
+        .bg6 {
+            background-color: #769D93;
+        }
+
+        .bg7 {
+            background-color: #683136;
+        }
+
+        .bg8 {
+            background-color: #28795D;
+        }
+
+        .bg9 {
+            background-color: #828B3C;
+        }
+
+        .bg10 {
+            background-color: #457698;
+        }
+
+        .bg10 {
+            background-color: #457698;
+        }
+
+        .bg11 {
+            background-color: #764572;
+        }
+
+        .error {
+            background-color: #2E2E2E;
+        }
+    </style>
+</head>
+
+<body class="bg3">
+    <div class="page-wrap">
+        <h1><a href="/" id="lnkReload"><span>Упс, что-то пошло не так :(<br />Обновите страничку</span><img id="logo"
+                    src="data:image/png;base64,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" alt="factios"></a></h1>
+    </div>
+    <footer>
+        <div class="site-footer-div">
+            <div id="copyrights">©factios: интересные факты, 2013 -
+                {{.Year}}.<br>Проект компании <a href="https://piplos.media/" target="_blank">Piplos Media</a>
+            </div>
+        </div>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-migrate/1.2.1/jquery-migrate.min.js"
+        type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/history.js/1.8/bundled/html4+html5/jquery.history.js"
+        type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var place = $('#lnkReload span'),
+                body = $('body'),
+                shareTitles = $('.share-titles'),
+                title = 'А Вы знали что',
+                loading = false,
+                initial = JSON.parse('{"short":"{{.Short}}", "fact":"{{.Fact}}"}'),
+                fullUrl = true,
+                updateState = true;
+
+            function rand(min, max) {
+                if (max) {
+                    return Math.floor(Math.random() * (max - min + 1)) + min;
+                } else {
+                    return Math.floor(Math.random() * (min + 1));
+                }
+            }
+
+            function updatePage(data) {
+                if (typeof data === 'undefined') {
+                    return;
+                }
+                var newTitle = title + ': "' + data.fact + '"',
+                newBg = data.bg || rand(1, 10);
+                place.html(data.fact);
+                shareTitles.attr('content', newTitle);
+                body.removeClass().addClass('bg' + newBg);
+
+                data.bg = newBg;
+                console.log(updateState);
+                if (updateState) {
+                    if ($.inArray(History.getState().hash, ['/', './']) != -1) {
+                        History.replaceState(data, newTitle, '/f/{{.Lang}}/' + data.short);
+                    } else {
+                        History.pushState(data, newTitle, '/f/{{.Lang}}/' + data.short);
+                    }
+                }
+                loading = false;
+            }
+
+            function getData(successCallback) {
+                if (loading) {
+                    return;
+                }
+                loading = true;
+
+                $.ajax({
+                    url: '/api/{{.Lang}}/fact',
+                    method: 'GET',
+                    cache: false,
+                    dataType: 'json',
+                    success: successCallback,
+                    error: function () {
+                        loading = false;
+                        place.html('Упс, что-то пошло не так :(<br/>Обновите страничку');
+                        body.removeClass().addClass('error');
+                    }
+                });
+            }
+            History.Adapter.bind(window, 'statechange', function () {
+                var state = History.getState();
+                if (!updateState) {
+                    updatePage(state.data);
+                }
+                updateState = false;
+            });
+            $('#lnkReload').click(function (e) {
+                e.preventDefault();
+                if (fullUrl && History.emulated.pushState) {
+                    location.href = '/';
+                    return;
+                }
+                getData(function (data) {
+                    updateState = true;
+                    updatePage(data);
+                });
+            });
+            if (!fullUrl && $.inArray(History.getState().hash, ['/', './']) == -1) {
+                var state = History.getState();
+                if (state.hash.charAt(0) == '/') {
+                    state.hash = state.hash.substr(1);
+                }
+                if (state.hash.substr(0, 2) != 'f/{{.Lang}}/') {
+                    location.href = '/';
+                    return;
+                }
+
+                getData(function (data) {
+                    updateState = true;
+                    updatePage(data);
+                });
+            } else {
+                updatePage(initial);
+            }
+        });
+    </script>
+</body>
+
+</html>
