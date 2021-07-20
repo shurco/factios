@@ -5,4 +5,5 @@ RUN go build -o /go/bin/server
 
 FROM alpine:3.13.5
 COPY --from=GO_BUILD /go/bin/server ./
+COPY --from=GO_BUILD /server/public ./public
 CMD ./server

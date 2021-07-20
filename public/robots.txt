@@ -1,3 +1,5 @@
 User-agent: *
 Disallow: /*&
 Disallow: /*?
+
+Sitemap: https://factios.com/sitemap.xml

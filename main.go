@@ -3,6 +3,9 @@ package main
 import (
 	"embed"
 	"net/http"
+	"os"
+	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -10,6 +13,8 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/csrf"
 	"github.com/gofiber/template/html"
+	"github.com/ikeikeikeike/go-sitemap-generator/v2/stm"
+
 	"github.com/shurco/factios/database"
 	"github.com/shurco/factios/logger"
 	"github.com/shurco/factios/model"
@@ -52,13 +57,15 @@ func setupRoutes(app *fiber.App) {
 	app.Get("/f/", factPage)
 	app.Get("/f/:lng/:short?", factPage)
 
-	app.Get("/robots.txt", robotsFile)
-	app.Get("/favicon.ico", faviconFile)
+	app.Get("/sitemap.xml", sitemapFile)
 
 	app.Get("/api/:lng/fact", getRandomFact)
 	app.Get("/api/:lng/fact/:short", getFactByID)
+	app.Get("/api/sentsitemap", sentSitemap)
 
 	app.Get("/ping", pingPong)
+
+	app.Static("/", "./public")
 
 	app.Use(func(c *fiber.Ctx) error {
 		return c.SendStatus(404)
@@ -102,14 +109,9 @@ func factPage(c *fiber.Ctx) error {
 	})
 }
 
-func robotsFile(c *fiber.Ctx) error {
-	file, _ := viewsfs.ReadFile("template/robots.txt")
-	return c.Send(file)
-}
-
-func faviconFile(c *fiber.Ctx) error {
-	file, _ := viewsfs.ReadFile("template/favicon.ico")
-	return c.Send(file)
+func sitemapFile(c *fiber.Ctx) error {
+	sm := sitemapSpider()
+	return c.Send(sm.XMLContent())
 }
 
 func getRandomFact(c *fiber.Ctx) error {
@@ -126,4 +128,35 @@ func getFactByID(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadGateway).JSON(fiber.Map{"error": err.Error()})
 	}
 	return c.Status(fiber.StatusOK).JSON(fact)
+}
+
+func sentSitemap(c *fiber.Ctx) error {
+	sm := sitemapSpider()
+	sm.Finalize().PingSearchEngines()
+	return nil
+}
+
+func sitemapSpider() *stm.Sitemap {
+	sm := stm.NewSitemap(0)
+	sm.Create()
+	sm.SetDefaultHost("https://factios.com")
+
+	err := filepath.Walk("./db/",
+		func(path string, info os.FileInfo, err error) error {
+			if err != nil {
+				return err
+			}
+			if strings.HasSuffix(path, ".json") {
+				path = strings.Replace(path, "db/", "", 1)
+				path = strings.Replace(path, ".json", "", 1)
+				sm.Add(stm.URL{{"loc", "/f/" + path}})
+			}
+			return nil
+		},
+	)
+	if err != nil {
+		log.Error().Err(err)
+	}
+
+	return sm
 }
